@@ -46,6 +46,10 @@ jobs:
     - name: add brew to path
       run: export PATH=$PATH:/opt/homebrew/bin > ~/.zshrc
 
+    - name: Set up Homebrew
+      id: set-up-homebrew
+      uses: Homebrew/actions/setup-homebrew@main
+
     - name: Install golang-migrate with brew
       run: brew install golang-migrate
 
