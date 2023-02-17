@@ -48,7 +48,7 @@ jobs:
 
     - name: Set up Homebrew
       id: set-up-homebrew
-      uses: Homebrew/actions/setup-homebrew@main
+      uses: Homebrew/actions/setup-homebrew@master
 
     - name: Install golang-migrate with brew
       run: brew install golang-migrate
