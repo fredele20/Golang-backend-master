@@ -5,9 +5,9 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	mock_sqlc "golang-backend-structure/db/mocks"
-	db "golang-backend-structure/db/sqlc"
-	"golang-backend-structure/util"
+	mockdb "github.com/fredele20/Golang-backend-master/db/mocks"
+	db "github.com/fredele20/Golang-backend-master/db/sqlc"
+	"github.com/fredele20/Golang-backend-master/util"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -23,13 +23,13 @@ func TestGetAccountAPI(t *testing.T) {
 	testCases := []struct {
 		name          string
 		accountID     int64
-		buildStubs    func(store *mock_sqlc.MockStore)
+		buildStubs    func(store *mockdb.MockStore)
 		checkResponse func(t *testing.T, recorder *httptest.ResponseRecorder)
 	}{
 		{
 			name:      "OK",
 			accountID: account.ID,
-			buildStubs: func(store *mock_sqlc.MockStore) {
+			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
 					GetAccount(gomock.Any(), gomock.Eq(account.ID)).
 					Times(1).
@@ -43,7 +43,7 @@ func TestGetAccountAPI(t *testing.T) {
 		{
 			name:      "NotFound",
 			accountID: account.ID,
-			buildStubs: func(store *mock_sqlc.MockStore) {
+			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
 					GetAccount(gomock.Any(), gomock.Eq(account.ID)).
 					Times(1).
@@ -56,7 +56,7 @@ func TestGetAccountAPI(t *testing.T) {
 		{
 			name:      "InternalError",
 			accountID: account.ID,
-			buildStubs: func(store *mock_sqlc.MockStore) {
+			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
 					GetAccount(gomock.Any(), gomock.Eq(account.ID)).
 					Times(1).
@@ -69,7 +69,7 @@ func TestGetAccountAPI(t *testing.T) {
 		{
 			name:      "InvalidID",
 			accountID: 0,
-			buildStubs: func(store *mock_sqlc.MockStore) {
+			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
 					GetAccount(gomock.Any(), gomock.Any()).
 					Times(0)
@@ -88,20 +88,20 @@ func TestGetAccountAPI(t *testing.T) {
 
 			ctrl := gomock.NewController(t)
 			defer ctrl.Finish()
-		
-			store := mock_sqlc.NewMockStore(ctrl)
+
+			store := mockdb.NewMockStore(ctrl)
 			tc.buildStubs(store)
-		
+
 			// statrt test server and send request
 			server := NewServer(store)
 			recorder := httptest.NewRecorder()
-		
+
 			url := fmt.Sprintf("/accounts/%d", tc.accountID)
 			request, err := http.NewRequest(http.MethodGet, url, nil)
 			require.NoError(t, err)
-		
+
 			server.router.ServeHTTP(recorder, request)
-		
+
 			// check response
 			tc.checkResponse(t, recorder)
 		})

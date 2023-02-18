@@ -2,7 +2,7 @@ package db
 
 import (
 	"database/sql"
-	"golang-backend-structure/util"
+	"github.com/fredele20/Golang-backend-master/util"
 	"log"
 	"os"
 	"testing"

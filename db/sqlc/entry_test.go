@@ -3,17 +3,17 @@ package db
 import (
 	"context"
 	"database/sql"
-	"golang-backend-structure/util"
+	"github.com/fredele20/Golang-backend-master/util"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/require"
-)	
+)
 
 func createRandomEntry(t *testing.T, account Account) Entry {
 	arg := CreateEntryParams{
 		AccountID: account.ID, // randomly generated
-		Amount:  util.RandomMoney(),
+		Amount:    util.RandomMoney(),
 	}
 
 	entry, err := testQueries.CreateEntry(context.Background(), arg)
@@ -28,7 +28,6 @@ func createRandomEntry(t *testing.T, account Account) Entry {
 
 	return entry
 }
-
 
 func TestCreateEntry(t *testing.T) {
 	account := createRandomAccount(t)
@@ -53,7 +52,7 @@ func TestUpdateEntry(t *testing.T) {
 	entry1 := createRandomEntry(t, account)
 
 	args := UpdateEntryParams{
-		ID: entry1.ID,
+		ID:     entry1.ID,
 		Amount: entry1.Amount,
 	}
 
@@ -89,8 +88,8 @@ func TestListEntry(t *testing.T) {
 
 	args := ListEntriesParams{
 		AccountID: account.ID,
-		Limit: 5,
-		Offset: 5,
+		Limit:     5,
+		Offset:    5,
 	}
 
 	entries, err := testQueries.ListEntries(context.Background(), args)

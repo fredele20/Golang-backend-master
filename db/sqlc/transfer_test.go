@@ -2,7 +2,7 @@ package db
 
 import (
 	"context"
-	"golang-backend-structure/util"
+	"github.com/fredele20/Golang-backend-master/util"
 	"testing"
 	"time"
 

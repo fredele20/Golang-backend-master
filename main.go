@@ -2,14 +2,14 @@ package main
 
 import (
 	"database/sql"
-	"golang-backend-structure/api"
-	db "golang-backend-structure/db/sqlc"
-	"golang-backend-structure/util"
 	"log"
+
+	"github.com/fredele20/Golang-backend-master/api"
+	db "github.com/fredele20/Golang-backend-master/db/sqlc"
+	"github.com/fredele20/Golang-backend-master/util"
 
 	_ "github.com/lib/pq"
 )
-
 
 func main() {
 	config, err := util.LoadConfig(".")
@@ -21,6 +21,8 @@ func main() {
 	if err != nil {
 		log.Fatal("cannot connect to db:", err)
 	}
+
+	defer conn.Close()
 
 	store := db.NewStore(conn)
 	server := api.NewServer(store)
