@@ -5,13 +5,14 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	mockdb "github.com/fredele20/Golang-backend-master/db/mocks"
-	db "github.com/fredele20/Golang-backend-master/db/sqlc"
-	"github.com/fredele20/Golang-backend-master/util"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	mockdb "github.com/fredele20/Golang-backend-master/db/mocks"
+	db "github.com/fredele20/Golang-backend-master/db/sqlc"
+	"github.com/fredele20/Golang-backend-master/util"
 
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/require"
