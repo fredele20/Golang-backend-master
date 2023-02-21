@@ -12,13 +12,15 @@ require (
 	golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e
 )
 
-require github.com/dgrijalva/jwt-go v3.2.0+incompatible
+require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/o1egl/paseto v1.0.0
+)
 
 require (
 	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da // indirect
-	github.com/aead/chacha20poly1305 v0.0.0-20170617001512-233f39982aeb // indirect
+	github.com/aead/chacha20poly1305 v0.0.0-20201124145622-1a5aba2a8b29 // indirect
 	github.com/aead/poly1305 v0.0.0-20180717145839-3fee0db0b635 // indirect
-	github.com/o1egl/paseto v1.0.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 )
 
@@ -45,6 +47,7 @@ require (
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/subosito/gotenv v1.4.2 // indirect
+	github.com/techschool/simplebank v0.0.0-20230204160300-083a0926e973
 	github.com/ugorji/go/codec v1.2.7 // indirect
 	golang.org/x/net v0.4.0 // indirect
 	golang.org/x/sys v0.3.0 // indirect
