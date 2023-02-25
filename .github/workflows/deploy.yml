@@ -23,7 +23,7 @@ jobs:
       with:
         role-to-assume: ${{ secrets.DEPLOYMENT_KEY }}
         role-session-name: OIDCSession
-        aws-region: eu-west-1
+        aws-region: us-east-1
 
     - name: Login to Amazon ECR
       id: login-ecr
