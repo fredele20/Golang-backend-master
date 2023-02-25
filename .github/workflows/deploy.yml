@@ -4,6 +4,10 @@ on:
   push:
     branches: [ main ]
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
 
   build:
@@ -18,9 +22,7 @@ jobs:
       uses: aws-actions/configure-aws-credentials@v1
       with:
         role-to-assume: arn:aws:iam::028047372944:user/github-ci
-        role-session-name: GitHubActions
         aws-region: eu-west-1
-        audience: sts.amazonaws.com
 
     - name: Login to Amazon ECR
       id: login-ecr
