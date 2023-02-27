@@ -24,7 +24,7 @@ jobs:
         role-to-assume: arn:aws:iam::028047372944:user/github-ci
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        role-session-name: GitHubPipeline
+        # role-session-name: GitHubPipeline
         aws-region: eu-west-1
 
     - name: Login to Amazon ECR
