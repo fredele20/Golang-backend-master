@@ -1,8 +1,17 @@
 apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: nginx
+spec:
+  controller: k8s.io/ingress-nginx
+
+---
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: simple-bank-ingress
 spec:
+  ingressClassName: nginx
   rules:
   - host: "a6f6ef7010ade4e24905b6ad636727f1-253690105.eu-west-1.elb.amazonaws.com"
     http:
