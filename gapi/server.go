@@ -12,11 +12,10 @@ import (
 // Server servs gRPC requests for out banking service
 type Server struct {
 	pb.UnimplementedSimpleBankServer
-	config util.Config
-	store db.Store
+	config     util.Config
+	store      db.Store
 	tokenMaker token.Maker
 }
-
 
 // NewServer creates a new gRPC server
 func NewServer(config util.Config, store db.Store) (*Server, error) {
@@ -26,8 +25,8 @@ func NewServer(config util.Config, store db.Store) (*Server, error) {
 	}
 
 	server := &Server{
-		config: config,
-		store: store,
+		config:     config,
+		store:      store,
 		tokenMaker: tokenMaker,
 	}
 

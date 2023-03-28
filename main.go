@@ -9,17 +9,18 @@ import (
 
 	"github.com/fredele20/Golang-backend-master/api"
 	db "github.com/fredele20/Golang-backend-master/db/sqlc"
+	_ "github.com/fredele20/Golang-backend-master/docs/statik"
 	"github.com/fredele20/Golang-backend-master/gapi"
 	"github.com/fredele20/Golang-backend-master/pb"
 	"github.com/fredele20/Golang-backend-master/util"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"github.com/rakyll/statik/fs"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"google.golang.org/protobuf/encoding/protojson"
 
 	_ "github.com/lib/pq"
 )
-
 
 func main() {
 	config, err := util.LoadConfig(".")
@@ -37,7 +38,7 @@ func main() {
 	store := db.NewStore(conn)
 	go runGatewayServer(config, store)
 	runGrpcServer(config, store)
-	
+
 }
 
 func runGrpcServer(config util.Config, store db.Store) {
@@ -48,7 +49,7 @@ func runGrpcServer(config util.Config, store db.Store) {
 
 	grpcServer := grpc.NewServer()
 	pb.RegisterSimpleBankServer(grpcServer, server)
-	reflection.Register(grpcServer)	
+	reflection.Register(grpcServer)
 
 	listener, err := net.Listen("tcp", config.GRPCServerAddress)
 	if err != nil {
@@ -89,6 +90,14 @@ func runGatewayServer(config util.Config, store db.Store) {
 
 	mux := http.NewServeMux()
 	mux.Handle("/", grpcMux)
+
+	statikFS, err := fs.New()
+	if err != nil {
+		log.Fatal("cannot create statik file system: ", err)
+	}
+
+	swaggerHandler := http.StripPrefix("/swagger/", http.FileServer(statikFS))
+	mux.Handle("/swagger/", swaggerHandler)
 
 	listener, err := net.Listen("tcp", config.HTTPServerAddress)
 	if err != nil {

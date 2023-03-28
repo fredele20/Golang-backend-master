@@ -21,7 +21,7 @@ func (server *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest)
 		Username: req.GetUsername(),
 		Password: hashedPassword,
 		FullName: req.GetFullName(),
-		Email: req.GetEmail(),
+		Email:    req.GetEmail(),
 	}
 
 	user, err := server.store.CreateUser(ctx, arg)
