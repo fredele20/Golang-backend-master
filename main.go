@@ -13,6 +13,9 @@ import (
 	"github.com/fredele20/Golang-backend-master/gapi"
 	"github.com/fredele20/Golang-backend-master/pb"
 	"github.com/fredele20/Golang-backend-master/util"
+	"github.com/golang-migrate/migrate/v4"
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/rakyll/statik/fs"
 	"google.golang.org/grpc"
@@ -35,10 +38,25 @@ func main() {
 
 	defer conn.Close()
 
+	runDBMigrations(config.MigrationURL, config.DBSource)
+
 	store := db.NewStore(conn)
 	go runGatewayServer(config, store)
 	runGrpcServer(config, store)
 
+}
+
+func runDBMigrations(migrationURL, dbSource string) {
+	migration, err := migrate.New(migrationURL, dbSource)
+	if err != nil {
+		log.Fatal("cannot create a new migrate instance: ", err)
+	}
+
+	if err := migration.Up(); err != nil && err != migrate.ErrNoChange {
+		log.Fatal("failed to run the migrate up: ", err)
+	}
+
+	log.Println("db migrated successfully")
 }
 
 func runGrpcServer(config util.Config, store db.Store) {
