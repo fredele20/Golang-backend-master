@@ -2,7 +2,6 @@ package worker
 
 import (
 	"context"
-	"database/sql"
 	"encoding/json"
 	"fmt"
 
@@ -17,8 +16,8 @@ type PayloadSendVerifyEmail struct {
 const TaskSendVerifyEmail = "task:send_verify_email"
 
 func (distributor *RedisTaskDistributor) DistributeTaskSendVerifyEmail(
-	ctx context.Context, 
-	payload *PayloadSendVerifyEmail, 
+	ctx context.Context,
+	payload *PayloadSendVerifyEmail,
 	opts ...asynq.Option,
 ) error {
 	jsonPayload, err := json.Marshal(payload)
@@ -45,16 +44,15 @@ func (processor *RedisTaskProcessor) ProcessTaskSendVerifyEmail(ctx context.Cont
 
 	user, err := processor.store.GetUser(ctx, payload.Username)
 	if err != nil {
-		if err == sql.ErrNoRows {
-			return fmt.Errorf("user does not exist: %w", asynq.SkipRetry)
-		}
+		// if err == sql.ErrNoRows {
+		// 	return fmt.Errorf("user does not exist: %w", asynq.SkipRetry)
+		// }
 		return fmt.Errorf("failed to get user: %w", err)
 	}
 
 	// TODO: send email to user
 	log.Info().Str("type", task.Type()).Bytes("payload", task.Payload()).
-			Str("email", user.Email).Msg("processed task")
-	
+		Str("email", user.Email).Msg("processed task")
+
 	return nil
 }
-

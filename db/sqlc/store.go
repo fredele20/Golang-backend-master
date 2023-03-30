@@ -99,9 +99,9 @@ func (store *SQLStore) TransferTx(ctx context.Context, args TransferTxParams) (T
 		}
 
 		// TODO: update account's balance
-		if  args.FromAccountID < args.ToAccountID {
-			result.FromAccount, result.ToAccount, err = addMoney(ctx, q, args.FromAccountID, - args.Amount, args.ToAccountID, args.Amount)
-	
+		if args.FromAccountID < args.ToAccountID {
+			result.FromAccount, result.ToAccount, err = addMoney(ctx, q, args.FromAccountID, -args.Amount, args.ToAccountID, args.Amount)
+
 		} else {
 			result.ToAccount, result.FromAccount, err = addMoney(ctx, q, args.ToAccountID, args.Amount, args.FromAccountID, -args.Amount)
 		}
@@ -113,15 +113,15 @@ func (store *SQLStore) TransferTx(ctx context.Context, args TransferTxParams) (T
 }
 
 func addMoney(
-		ctx context.Context, 
-		q *Queries, 
-		accountID1, 
-		amount1, 
-		accountID2, 
-		amount2 int64,
-	) (account1, account2 Account, err error) {
+	ctx context.Context,
+	q *Queries,
+	accountID1,
+	amount1,
+	accountID2,
+	amount2 int64,
+) (account1, account2 Account, err error) {
 	account1, err = q.AddAccountBalance(ctx, AddAccountBalanceParams{
-		ID: accountID1,
+		ID:     accountID1,
 		Amount: amount1,
 	})
 
@@ -130,7 +130,7 @@ func addMoney(
 	}
 
 	account2, err = q.AddAccountBalance(ctx, AddAccountBalanceParams{
-		ID: accountID2,
+		ID:     accountID2,
 		Amount: amount2,
 	})
 

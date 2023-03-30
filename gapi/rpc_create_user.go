@@ -36,8 +36,8 @@ func (server *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest)
 		},
 		AfterCreate: func(user db.User) error {
 			taskPaylaod := &worker.PayloadSendVerifyEmail{
-			Username: user.Username,
-		}
+				Username: user.Username,
+			}
 			opts := []asynq.Option{
 				asynq.MaxRetry(10),
 				asynq.ProcessIn(10 * time.Second),
